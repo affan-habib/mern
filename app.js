@@ -167,6 +167,8 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     throw new Error("Please add a id field");
   } else {
     const order = await new Order({
+      customer: customer[0].name,
+      balsal : "balsal",
       customerId: req.body.customerId,
       user: req.user.id,
       total: req.body.total,
@@ -174,7 +176,6 @@ app.post("/api/orders", requireLogin, async (req, res) => {
       advance: req.body.advance,
       due: req.body.total - req.body.advance - req.body.discount,
       orderDetailList: req.body.orderDetailList,
-      customer: customer[0],
     }).save();
     res.status(200).json({ data : order });
   }
