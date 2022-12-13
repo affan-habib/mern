@@ -165,6 +165,7 @@ app.post("/api/orders", requireLogin, async (req, res) => {
   // const customer = await Customer.find({ _id: req.body.customerId });
 
   const order = await new Order({
+    customerId: req.body.customerId,
     orderDetailList: req.body.orderDetailList,
   }).save();
   res.status(200).json({ data: order });
