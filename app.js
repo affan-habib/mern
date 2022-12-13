@@ -25,18 +25,35 @@ app.use(cors());
 
 app.use(express.json());
 
-const requireLogin = (req, res, next) => {
-  const { authorization } = req.headers;
-  if (!authorization) {
-    return res.status(401).json({ error: "you must be logged in" });
-  }
-  try {
-    const { userId } = jwt.verify(authorization, JWT_SECRET);
-    req.user = userId;
-    next();
-  } catch (err) {
-    return res.status(401).json({ error: "you must be logged in" });
-  }
+const requireLogin = async (req, res, next) => {
+    let token;
+
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      try {
+        // Get token from header
+        token = req.headers.authorization.split(" ")[1];
+  
+        // Verify token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  
+        // Get user from the token
+        req.user = await User.findById(decoded.id).select("-password");
+  
+        next();
+      } catch (error) {
+        console.log(error);
+        res.status(401);
+        throw new Error("Not authorized");
+      }
+    }
+  
+    if (!token) {
+      res.status(401);
+      throw new Error("Not authorized, no token");
+    }
 };
 
 app.post("/signup", async (req, res) => {
