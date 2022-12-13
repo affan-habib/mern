@@ -162,19 +162,12 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     throw new Error("Please add a name field");
   }
 
-  // const customer = await Customer.find({ _id: req.body.customerId });
-
   const order = await new Order({
     customerId: req.body.customerId,
     total: req.body.total,
     discount: req.body.discount,
-    due: req.body.due,
     advance: req.body.advance,
     orderDetailList: req.body.orderDetailList,
-    // name: customer.name || "Not Found",
-    // age: customer.age || 0,
-    // gender: customer.gender || "Not Found",
-    // contactNumber: customer.contactNumber || "Not Found",
   }).save();
   res.status(200).json({ data: order });
 });
