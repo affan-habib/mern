@@ -183,7 +183,7 @@ app.delete(
 
 // Order Routes
 
-app.get("api/orders", requireLogin, async (req, res) => {
+app.get("/api/orders", requireLogin, async (req, res) => {
   const orders = await Order.find({ user: req.user.id });
   res.status(200).json({ data: orders });
 });
