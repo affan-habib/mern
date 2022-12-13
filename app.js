@@ -117,9 +117,9 @@ app.post("/api/customers", requireLogin, async (req, res) => {
   res.status(201).json({ message: data });
 });
 
-app.get("/api/customers",  async (req, res) => {
+app.get("/api/customers", async (req, res) => {
   const data = await Customer.find({
-    user: req.user.id,
+    user: "63787c9908b16374bc255dca",
   });
   res.status(200).json({ message: data });
 });
