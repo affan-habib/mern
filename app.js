@@ -182,10 +182,11 @@ app.delete(
 // Order Routes
 
 app.get("api/orders", requireLogin, async (req, res) => {
-  const orders = await Order.find({ user: "63787c9908b16374bc255dca" });
-  res.status(200).json({ data: orders });
+  const data = await Order.find({
+    user: "63787c9908b16374bc255dca",
+  });
+  res.status(200).json({ data: data });
 });
-
 
 if (process.env.NODE_ENV == "production") {
   const path = require("path");
