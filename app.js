@@ -131,7 +131,18 @@ app.delete("/api/customers/:id", requireLogin, async (req, res) => {
 });
 
 // Products
-
+app.post("/api/products", requireLogin, async (req, res) => {
+  const data = await new Product({
+    id: req.body.id,
+    user: req.user.id,
+    serviceName: req.body.serviceName,
+    basePrice: req.body.basePrice,
+    discountPerUnit: req.body.discountPerUnit,
+    expiryDate: req.body.expiryDate,
+    vatPerUnit: req.body.vatPerUnit,
+  }).save();
+  res.status(201).json({ data: data });
+});
 // Order Routes
 
 app.get("/api/orders", requireLogin, async (req, res) => {
@@ -166,17 +177,6 @@ app.post("/api/orders", requireLogin, async (req, res) => {
 });
 
 //
-app.post("/api/products", requireLogin, async (req, res) => {
-  const data = await new Product({
-    id: req.body.id,
-    serviceName: req.body.serviceName,
-    basePrice: req.body.basePrice,
-    discountPerUnit: req.body.discountPerUnit,
-    vatPerUnit: req.body.vatPerUnit,
-    expiryDate: req.body.expiryDate,
-  }).save();
-  res.status(201).json({ data: data });
-});
 
 if (process.env.NODE_ENV == "production") {
   const path = require("path");
