@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET, MOGOURI } = require("./config/keys");
 const Todo = require("./models/todo");
 const Customer = require("./models/customer");
+const Product = require("./models/product");
 
 mongoose.connect(MOGOURI, {
   useNewUrlParser: true,
@@ -26,34 +27,34 @@ app.use(cors());
 app.use(express.json());
 
 const requireLogin = async (req, res, next) => {
-    let token;
+  let token;
 
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      try {
-        // Get token from header
-        token = req.headers.authorization.split(" ")[1];
-  
-        // Verify token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  
-        // Get user from the token
-        req.user = await User.findById(decoded.id).select("-password");
-  
-        next();
-      } catch (error) {
-        console.log(error);
-        res.status(401);
-        throw new Error("Not authorized");
-      }
-    }
-  
-    if (!token) {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    try {
+      // Get token from header
+      token = req.headers.authorization.split(" ")[1];
+
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Get user from the token
+      req.user = await User.findById(decoded.id).select("-password");
+
+      next();
+    } catch (error) {
+      console.log(error);
       res.status(401);
-      throw new Error("Not authorized, no token");
+      throw new Error("Not authorized");
     }
+  }
+
+  if (!token) {
+    res.status(401);
+    throw new Error("Not authorized, no token");
+  }
 };
 
 app.post("/signup", async (req, res) => {
@@ -145,6 +146,37 @@ app.delete("/api/customers/:id", requireLogin, async (req, res) => {
   const removedCustomer = await Todo.findOneAndRemove({ _id: req.params.id });
   res.status(200).json({ message: removedCustomer });
 });
+
+// Products
+
+app.post("/api/v1/service-master/items", requireLogin, async (req, res) => {
+  const data = await new Product({
+    id: req.body.id,
+    user: req.user.id,
+    serviceName: req.body.serviceName,
+    basePrice: req.body.basePrice,
+    discountPerUnit: req.body.discountPerUnit,
+    expiryDate: req.body.expiryDate,
+    vatPerUnit: req.body.vatPerUnit,
+  }).save();
+  res.status(201).json({ data: data });
+});
+
+app.get("/api/v1/service-master/items", requireLogin, async (req, res) => {
+  const data = await Product.find({
+    user: "63787c9908b16374bc255dca",
+  });
+  res.status(200).json({ data: data });
+});
+
+app.delete(
+  "/api/v1/service-master/items/:id",
+  requireLogin,
+  async (req, res) => {
+    const removedProduct = await Todo.findOneAndRemove({ _id: req.params.id });
+    res.status(200).json({ message: removedProduct });
+  }
+);
 
 if (process.env.NODE_ENV == "production") {
   const path = require("path");
