@@ -145,7 +145,7 @@ app.post("/api/products", requireLogin, async (req, res) => {
 });
 
 app.get("/api/products", requireLogin, async (req, res) => {
-  const data = await Customer.find({
+  const data = await Product.find({
     user: "63787c9908b16374bc255dca",
   });
   res.status(200).json({ data: data });
