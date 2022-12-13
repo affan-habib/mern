@@ -139,9 +139,6 @@ app.post("/api/products", requireLogin, async (req, res) => {
     user: req.user.id,
     serviceName: req.body.serviceName,
     basePrice: req.body.basePrice,
-    discountPerUnit: req.body.discountPerUnit,
-    expiryDate: req.body.expiryDate,
-    vatPerUnit: req.body.vatPerUnit,
   }).save();
   res.status(201).json({ data: data });
 });
