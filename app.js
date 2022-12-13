@@ -170,8 +170,6 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     discount: req.body.discount,
     due: req.body.due,
     advance: req.body.advance,
-    total: total,
-    due: total - req.body.discount - req.body.advance,
     orderDetailList: req.body.orderDetailList,
     // name: customer.name || "Not Found",
     // age: customer.age || 0,
