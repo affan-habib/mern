@@ -144,7 +144,9 @@ app.get("/api/customers", requireLogin, async (req, res) => {
 });
 
 app.delete("/api/customers/:id", requireLogin, async (req, res) => {
-  const removedCustomer = await Customer.findOneAndRemove({ _id: req.params.id });
+  const removedCustomer = await Customer.findOneAndRemove({
+    _id: req.params.id,
+  });
   res.status(200).json({ message: removedCustomer });
 });
 
@@ -182,10 +184,8 @@ app.delete(
 // Order Routes
 
 app.get("api/orders", requireLogin, async (req, res) => {
-  const data = await Order.find({
-    customerId: "639029246569ea68e6cc7220",
-  });
-  res.status(200).json({ data: data });
+  const orders = await Order.find({ user: req.user.id });
+  res.status(200).json({ data: orders });
 });
 
 if (process.env.NODE_ENV == "production") {
