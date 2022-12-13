@@ -135,8 +135,7 @@ app.delete("/api/customers/:id", requireLogin, async (req, res) => {
 
 app.post("/api/products", requireLogin, async (req, res) => {
   const data = await new Product({
-    id: req.body.id,
-    user: req.user.id,
+
     serviceName: req.body.serviceName,
     basePrice: req.body.basePrice,
   }).save();
