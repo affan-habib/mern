@@ -9,7 +9,6 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET, MOGOURI } = require("./config/keys");
 const Todo = require("./models/todo");
 const Customer = require("./models/customer");
-const Product = require("./models/product");
 const Order = require("./models/order");
 
 mongoose.connect(MOGOURI, {
@@ -133,27 +132,6 @@ app.delete("/api/customers/:id", requireLogin, async (req, res) => {
 
 // Products
 
-app.post("/api/products", requireLogin, async (req, res) => {
-  const data = await new Product({
-
-    serviceName: req.body.serviceName,
-    basePrice: req.body.basePrice,
-  }).save();
-  res.status(201).json({ data: data });
-});
-
-app.get("/api/products", requireLogin, async (req, res) => {
-  const data = await Product.find({
-    user: "63787c9908b16374bc255dca",
-  });
-  res.status(200).json({ data: data });
-});
-
-app.delete("/api/products/:id", requireLogin, async (req, res) => {
-  const removedProduct = await Todo.findOneAndRemove({ _id: req.params.id });
-  res.status(200).json({ message: removedProduct });
-});
-
 // Order Routes
 
 app.get("/api/orders", requireLogin, async (req, res) => {
@@ -186,6 +164,21 @@ app.post("/api/orders", requireLogin, async (req, res) => {
   });
   res.status(200).json({ data: order });
 });
+
+//
+app.post("/api/customers", requireLogin, async (req, res) => {
+  const data = await new Customer({
+    id: req.body.id,
+    user: req.user.id,
+    serviceName: req.body.serviceName,
+    basePrice: req.body.basePrice,
+    discountPerUnit: req.body.discountPerUnit,
+    vatPerUnit: req.body.vatPerUnit,
+    expiryDate: req.body.expiryDate,
+  }).save();
+  res.status(201).json({ data: data });
+});
+
 if (process.env.NODE_ENV == "production") {
   const path = require("path");
 
