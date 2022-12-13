@@ -105,25 +105,6 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.post("/createtodo", requireLogin, async (req, res) => {
-  const data = await new Todo({
-    todo: req.body.todo,
-    todoBy: req.user,
-  }).save();
-  res.status(201).json({ message: data });
-});
-
-app.get("/gettodos", requireLogin, async (req, res) => {
-  const data = await Todo.find({
-    todoBy: req.user,
-  });
-  res.status(200).json({ message: data });
-});
-
-app.delete("/remove/:id", requireLogin, async (req, res) => {
-  const removedTodo = await Todo.findOneAndRemove({ _id: req.params.id });
-  res.status(200).json({ message: removedTodo });
-});
 app.post("/api/customers", requireLogin, async (req, res) => {
   const data = await new Customer({
     id: req.body.id,
