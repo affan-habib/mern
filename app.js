@@ -105,31 +105,29 @@ app.delete("/remove/:id", requireLogin, async (req, res) => {
   const removedTodo = await Todo.findOneAndRemove({ _id: req.params.id });
   res.status(200).json({ message: removedTodo });
 });
+app.post("/api/customers", requireLogin, async (req, res) => {
+  const data = await new Customer({
+    id: req.body.id,
+    user: req.user.id,
+    name: req.body.name,
+    age: req.body.age,
+    gender: req.body.gender,
+    contactNumber: req.body.contactNumber,
+  }).save();
+  res.status(201).json({ message: data });
+});
 
-app.use('/api/customers', require('./routes/customerRoutes'));
-// app.post("/api/customers", requireLogin, async (req, res) => {
-//   const data = await new Customer({
-//     id: req.body.id,
-//     user: req.user.id,
-//     name: req.body.name,
-//     age: req.body.age,
-//     gender: req.body.gender,
-//     contactNumber: req.body.contactNumber,
-//   }).save();
-//   res.status(201).json({ data: data });
-// });
+app.get("/api/customers", requireLogin, async (req, res) => {
+  const data = await Customer.find({
+    user: req.user.id,
+  });
+  res.status(200).json({ message: data });
+});
 
-// app.get("/api/customers", async (req, res) => {
-//   const data = await Customer.find({
-//     user: "63787c9908b16374bc255dca",
-//   });
-//   res.status(200).json({ data: data });
-// });
-
-// app.delete("/api/customers/:id", requireLogin, async (req, res) => {
-//   const removedCustomer = await Todo.findOneAndRemove({ _id: req.params.id });
-//   res.status(200).json({ data: removedCustomer });
-// });
+app.delete("/api/customers/:id", requireLogin, async (req, res) => {
+  const removedCustomer = await Todo.findOneAndRemove({ _id: req.params.id });
+  res.status(200).json({ message: removedCustomer });
+});
 
 if (process.env.NODE_ENV == "production") {
   const path = require("path");
