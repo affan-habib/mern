@@ -167,8 +167,10 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     throw new Error("Please add a id field");
   } else {
     const order = await new Order({
-      customer: customer[0].name,
-      balsal : "balsal",
+      name: customer[0].name,
+      age: customer[0].age,
+      gender: customer[0].gender,
+      contactNumber: customer[0].contactNumber,
       customerId: req.body.customerId,
       user: req.user.id,
       total: req.body.total,

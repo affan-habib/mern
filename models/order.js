@@ -12,6 +12,22 @@ const orderSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    name: {
+      type: String,
+      required: [true, "Please add a name value"],
+    },
+    contactNumber: {
+      type: String,
+      required: [true, "Please add a name value"],
+    },
+    gender: {
+      type: String,
+      required: [true, "Please add a name value"],
+    },
+    age: {
+      type: Number,,
+      required: [true, "Please add a name value"],
+    },
     orderDetailList: {
       type: Array,
     },
