@@ -182,7 +182,12 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     res.status(200).json({ data : order });
   }
 });
-
+app.delete("/api/orders/:id", requireLogin, async (req, res) => {
+  const removedOrder = await Customer.findOneAndRemove({
+    _id: req.params.id,
+  });
+  res.status(200).json({ message: removedOrder });
+});
 //
 
 if (process.env.NODE_ENV == "production") {
