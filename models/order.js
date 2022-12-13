@@ -25,7 +25,7 @@ const orderSchema = mongoose.Schema(
       required: [true, "Please add a name value"],
     },
     age: {
-      type: Number,,
+      type: Number,
       required: [true, "Please add a name value"],
     },
     orderDetailList: {
