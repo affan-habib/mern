@@ -138,7 +138,7 @@ app.get("/api/customers", requireLogin, async (req, res) => {
   const data = await Customer.find({
     user: "63787c9908b16374bc255dca",
   });
-  res.status(200).json({ message: data });
+  res.status(200).json({ data: data });
 });
 
 app.delete("/api/customers/:id", requireLogin, async (req, res) => {
