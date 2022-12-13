@@ -174,10 +174,10 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     total: total,
     due: total - req.body.discount - req.body.advance,
     orderDetailList: req.body.orderDetailList,
-    name: customer.name || "Not Found",
-    age: customer.age || 0,
-    gender: customer.gender || "Not Found",
-    contactNumber: customer.contactNumber || "Not Found",
+    // name: customer.name || "Not Found",
+    // age: customer.age || 0,
+    // gender: customer.gender || "Not Found",
+    // contactNumber: customer.contactNumber || "Not Found",
   }).save();
   res.status(200).json({ data: order });
 });
