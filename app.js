@@ -152,7 +152,7 @@ app.delete("/api/customers/:id", requireLogin, async (req, res) => {
 
 // Products
 
-app.post("/api/v1/service-master/items", requireLogin, async (req, res) => {
+app.post("/api/products", requireLogin, async (req, res) => {
   const data = await new Product({
     id: req.body.id,
     user: req.user.id,
@@ -165,7 +165,7 @@ app.post("/api/v1/service-master/items", requireLogin, async (req, res) => {
   res.status(201).json({ data: data });
 });
 
-app.get("/api/v1/service-master/items", requireLogin, async (req, res) => {
+app.get("/api/products", requireLogin, async (req, res) => {
   const data = await Product.find({
     user: "63787c9908b16374bc255dca",
   });
@@ -173,7 +173,7 @@ app.get("/api/v1/service-master/items", requireLogin, async (req, res) => {
 });
 
 app.delete(
-  "/api/v1/service-master/items/:id",
+  "/api/products/:id",
   requireLogin,
   async (req, res) => {
     const removedProduct = await Todo.findOneAndRemove({ _id: req.params.id });
