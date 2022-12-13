@@ -213,7 +213,7 @@ app.post("api/orders", requireLogin, async (req, res) => {
 });
 
 app.get("api/orders", requireLogin, async (req, res) => {
-  const orders = await Order.find({ user: req.user.id });
+  const orders = await Order.find({ user: "63787c9908b16374bc255dca" });
   res.status(200).json({ data: orders });
 });
 
