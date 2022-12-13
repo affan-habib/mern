@@ -172,14 +172,10 @@ app.get("/api/products", requireLogin, async (req, res) => {
   res.status(200).json({ data: data });
 });
 
-app.delete(
-  "/api/products/:id",
-  requireLogin,
-  async (req, res) => {
-    const removedProduct = await Todo.findOneAndRemove({ _id: req.params.id });
-    res.status(200).json({ message: removedProduct });
-  }
-);
+app.delete("/api/products/:id", requireLogin, async (req, res) => {
+  const removedProduct = await Todo.findOneAndRemove({ _id: req.params.id });
+  res.status(200).json({ message: removedProduct });
+});
 
 // Order Routes
 
@@ -187,7 +183,36 @@ app.get("/api/orders", requireLogin, async (req, res) => {
   const orders = await Order.find({ user: req.user.id });
   res.status(200).json({ data: orders });
 });
+app.post("/api/orders", requireLogin, async (req, res) => {
+  if (!req.body.customerId) {
+    res.status(400);
+    throw new Error("Please add a name field");
+  }
+  const total = req.body.orderDetailList.reduce(
+    (a, b) => a + b.basePrice * b.quantityOrdered,
+    0
+  );
 
+  const customer = await Customer.find({ _id: req.body.customerId });
+  if (!customer.length) {
+    res.status(400);
+    throw new Error("Please add a id field");
+  } else {
+    const order = await Order.create({
+      customerId: req.body.customerId,
+      discount: req.body.discount,
+      advance: req.body.advance,
+      total: total,
+      due: total - req.body.discount - req.body.advance,
+      orderDetailList: req.body.orderDetailList,
+      name: customer[0].name,
+      age: customer[0].age,
+      gender: customer[0].gender,
+      contactNumber: customer[0].contactNumber,
+    });
+    res.status(200).json({ data: order, customer: customer[0] });
+  }
+});
 if (process.env.NODE_ENV == "production") {
   const path = require("path");
 
