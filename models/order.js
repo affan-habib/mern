@@ -15,6 +15,18 @@ const orderSchema = mongoose.Schema(
     orderDetailList: {
       type: Array,
     },
+    total: {
+      type: Number,
+      required: [true, "Please add a basePrice value"],
+    },
+    discount: {
+      type: Number,
+      required: [true, "Please add a basePrice value"],
+    },
+    due: {
+      type: Number,
+      required: [true, "Please add a basePrice value"],
+    },
   },
   {
     timestamps: true,
