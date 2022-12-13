@@ -114,7 +114,7 @@ app.post("/api/customers", requireLogin, async (req, res) => {
     gender: req.body.gender,
     contactNumber: req.body.contactNumber,
   }).save();
-  res.status(201).json({ message: data });
+  res.status(201).json({ data: data });
 });
 
 app.get("/api/customers", async (req, res) => {
@@ -126,7 +126,7 @@ app.get("/api/customers", async (req, res) => {
 
 app.delete("/api/customers/:id", requireLogin, async (req, res) => {
   const removedCustomer = await Todo.findOneAndRemove({ _id: req.params.id });
-  res.status(200).json({ message: removedCustomer });
+  res.status(200).json({ data: removedCustomer });
 });
 
 if (process.env.NODE_ENV == "production") {
