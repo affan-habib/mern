@@ -7,7 +7,11 @@ const orderSchema = mongoose.Schema(
       required: true,
       ref: "Customer",
     },
-
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
     orderDetailList: {
       type: Array,
     },
