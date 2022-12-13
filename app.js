@@ -176,7 +176,7 @@ app.post("/api/orders", requireLogin, async (req, res) => {
       orderDetailList: req.body.orderDetailList,
       name: customer[0].name,
     }).save();
-    res.status(200).json({ order });
+    res.status(200).json({ data : order });
   }
 });
 
