@@ -27,6 +27,10 @@ const orderSchema = mongoose.Schema(
       type: Number,
       required: [true, "Please add a basePrice value"],
     },
+    due: {
+      type: Number,
+      required: [true, "Please add a basePrice value"],
+    },
   },
   {
     timestamps: true,

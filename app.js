@@ -168,6 +168,7 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     total: req.body.total,
     discount: req.body.discount,
     advance: req.body.advance,
+    due: req.body.total - req.body.advance- req.body.discount,
     orderDetailList: req.body.orderDetailList,
   }).save();
   res.status(200).json({ data: order });
