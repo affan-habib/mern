@@ -166,7 +166,7 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     0
   );
 
-  const customer = await Customer.find({ _id: req.body.customerId });
+  // const customer = await Customer.find({ _id: req.body.customerId });
 
   const order = await Order.create({
     customerId: req.body.customerId,
@@ -175,10 +175,10 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     total: total,
     due: total - req.body.discount - req.body.advance,
     orderDetailList: req.body.orderDetailList,
-    name: customer[0].name || "not Found",
-    age: customer[0].age || 0,
-    gender: customer[0].gender || 0,
-    contactNumber: customer[0].contactNumber || 0,
+    // name: customer[0].name || "not Found",
+    // age: customer[0].age || 0,
+    // gender: customer[0].gender || 0,
+    // contactNumber: customer[0].contactNumber || 0,
   });
   res.status(200).json({ data: order });
 });
