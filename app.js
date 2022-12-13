@@ -183,7 +183,7 @@ app.delete(
 
 app.get("api/orders", requireLogin, async (req, res) => {
   const data = await Order.find({
-    user: "63787c9908b16374bc255dca",
+    customerId: "63787c9908b16374bc255dca",
   });
   res.status(200).json({ data: data });
 });
