@@ -161,7 +161,8 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     res.status(400);
     throw new Error("Please add a name field");
   }
-  
+  const customer = await Customer.find({ _id: req.body.customerId });
+
   const order = await new Order({
     customerId: req.body.customerId,
     user: req.user.id,
@@ -171,7 +172,7 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     due: req.body.total - req.body.advance- req.body.discount,
     orderDetailList: req.body.orderDetailList,
   }).save();
-  res.status(200).json({ data: order });
+  res.status(200).json({ customer });
 });
 
 //
