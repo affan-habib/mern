@@ -163,13 +163,23 @@ app.post("/api/orders", requireLogin, async (req, res) => {
   }
 
   const customer = await Customer.find({ _id: req.body.customerId });
-
+  const total = await req.body.orderDetailList.reduce(
+    (a, b) => a + b.basePrice * b.quantityOrdered,
+    0
+  );
   const order = await new Order({
     customerId: req.body.customerId,
-    user: req.user.id,
+    discount: req.body.discount,
+    advance: req.body.advance,
+    total: total,
+    due: total - req.body.discount - req.body.advance,
     orderDetailList: req.body.orderDetailList,
+    name: customer.name || "Not Found",
+    age: customer.age || 0,
+    gender: customer.gender || "Not Found",
+    contactNumber: customer.contactNumber || "Not Found",
   }).save();
-  res.status(200).json({ data: customer });
+  res.status(200).json({ data: order });
 });
 
 //
