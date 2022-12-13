@@ -178,7 +178,7 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     // gender: customer.gender || "Not Found",
     // contactNumber: customer.contactNumber || "Not Found",
   }).save();
-  res.status(200).json({ customer });
+  res.status(200).json({ data: customer });
 });
 
 //
