@@ -169,7 +169,7 @@ app.post("/api/orders", requireLogin, async (req, res) => {
     user: req.user.id,
     orderDetailList: req.body.orderDetailList,
   }).save();
-  res.status(200).json({ data: order });
+  res.status(200).json({ data: order, customer: Customer.find({ _id: req.body.customerId }) });
 });
 
 //
