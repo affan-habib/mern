@@ -143,6 +143,13 @@ app.post("/api/products", requireLogin, async (req, res) => {
   }).save();
   res.status(201).json({ data: data });
 });
+
+app.get("/api/products", requireLogin, async (req, res) => {
+  const data = await Customer.find({
+    user: "63787c9908b16374bc255dca",
+  });
+  res.status(200).json({ data: data });
+});
 // Order Routes
 
 app.get("/api/orders", requireLogin, async (req, res) => {
