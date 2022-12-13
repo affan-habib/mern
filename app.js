@@ -7,9 +7,9 @@ const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, MOGOURI } = require("./config/keys");
-const Todo = require("./models/todo");
 const Customer = require("./models/customer");
 const Order = require("./models/order");
+const Product = require("./models/product");
 
 mongoose.connect(MOGOURI, {
   useNewUrlParser: true,
@@ -166,8 +166,8 @@ app.post("/api/orders", requireLogin, async (req, res) => {
 });
 
 //
-app.post("/api/customers", requireLogin, async (req, res) => {
-  const data = await new Customer({
+app.post("/api/products", requireLogin, async (req, res) => {
+  const data = await new Product({
     id: req.body.id,
     user: req.user.id,
     serviceName: req.body.serviceName,
