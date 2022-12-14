@@ -1,4 +1,3 @@
-const dotenv = require('dotenv').config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -7,12 +6,12 @@ const User = require("./models/user");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-// const { "abc 123", "mongodb+srv://affan:affan@cluster0.bwphjz4.mongodb.net/?retryWrites=true&w=majority" } = require("./config/keys");
+const { JWT_SECRET, MOGOURI } = require("./config/keys");
 const Customer = require("./models/customer");
 const Order = require("./models/order");
 const Product = require("./models/product");
 
-mongoose.connect("mongodb+srv://affan:affan@cluster0.bwphjz4.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect(MOGOURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -39,7 +38,7 @@ const requireLogin = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
 
       // Verify token
-      const decoded = jwt.verify(token, "abc 123");
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       // Get user from the token
       req.user = await User.findById(decoded.id).select("-password");
@@ -95,7 +94,7 @@ app.post("/signin", async (req, res) => {
     }
     const doMatch = await bcrypt.compare(password, user.password);
     if (doMatch) {
-      const token = jwt.sign({ userId: user._id }, "abc 123");
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET);
       res.status(201).json({ token });
     } else {
       return res.status(401).json({ error: "email or password is invalid" });
@@ -191,7 +190,14 @@ app.delete("/api/orders/:id", requireLogin, async (req, res) => {
 });
 //
 
+if (process.env.NODE_ENV == "production") {
+  const path = require("path");
 
+  app.get("/", (req, res) => {
+    app.use(express.static(path.resolve(__dirname, "client", "build")));
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 app.listen(PORT, () => {
   console.log("server running on ", PORT);
