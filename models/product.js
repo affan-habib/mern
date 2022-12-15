@@ -8,7 +8,7 @@ const productSchema = mongoose.Schema(
       ref: "User",
     },
     id: {
-      type: Number,
+      type: String,
       required: [true, "Please add a id value"],
     },
     serviceName: {

@@ -127,7 +127,7 @@ app.delete("/api/customers/:id", requireLogin, async (req, res) => {
   const removedCustomer = await Customer.findOneAndRemove({
     _id: req.params.id,
   });
-  res.status(200).json({ message: removedCustomer });
+  res.status(200).json({ data: removedCustomer });
 });
 
 // Products
@@ -149,6 +149,12 @@ app.get("/api/products", requireLogin, async (req, res) => {
     user: "63787c9908b16374bc255dca",
   });
   res.status(200).json({ data: data });
+});
+app.delete("/api/products/:id", requireLogin, async (req, res) => {
+  const removedProduct = await Product.findOneAndRemove({
+    _id: req.params.id,
+  });
+  res.status(200).json({ data: removedProduct });
 });
 // Order Routes
 
