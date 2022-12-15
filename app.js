@@ -150,6 +150,12 @@ app.get("/api/products", requireLogin, async (req, res) => {
   });
   res.status(200).json({ data: data });
 });
+app.delete("/api/products/:id", requireLogin, async (req, res) => {
+  const removedProduct = await Product.findOneAndRemove({
+    _id: req.params.id,
+  });
+  res.status(200).json({ data: removedProduct });
+});
 // Order Routes
 
 app.get("/api/orders", requireLogin, async (req, res) => {
