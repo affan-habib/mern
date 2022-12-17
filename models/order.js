@@ -4,7 +4,6 @@ const orderSchema = mongoose.Schema(
   {
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       ref: "Customer",
     },
     user: {
@@ -12,40 +11,37 @@ const orderSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    id: {
+      type: String,
+      required: [true, "Please add a id value"],
+    },
     name: {
       type: String,
-      required: [true, "Please add a name value"],
     },
     contactNumber: {
       type: String,
-      required: [true, "Please add a name value"],
+      required: [true, "Please add a contactNumber value"],
     },
     gender: {
       type: String,
-      required: [true, "Please add a name value"],
     },
     age: {
       type: Number,
-      required: [true, "Please add a name value"],
     },
-    orderDetailList: {
+    itemList: {
       type: Array,
+    },
+    paid: {
+      type: Boolean,
     },
     total: {
       type: Number,
-      required: [true, "Please add a basePrice value"],
     },
     discount: {
       type: Number,
-      required: [true, "Please add a basePrice value"],
     },
-    advance: {
+    paidAmount: {
       type: Number,
-      required: [true, "Please add a basePrice value"],
-    },
-    due: {
-      type: Number,
-      required: [true, "Please add a basePrice value"],
     },
   },
   {

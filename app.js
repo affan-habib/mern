@@ -163,30 +163,21 @@ app.get("/api/orders", requireLogin, async (req, res) => {
   res.status(200).json({ data: orders });
 });
 app.post("/api/orders", requireLogin, async (req, res) => {
-  if (!req.body.customerId) {
-    res.status(400);
-    throw new Error("Please add a name field");
-  }
-  const customer = await Customer.find({ _id: req.body.customerId });
-  if (!customer.length) {
-    res.status(400);
-    throw new Error("Please add a id field");
-  } else {
-    const order = await new Order({
-      name: customer[0].name,
-      age: customer[0].age,
-      gender: customer[0].gender,
-      contactNumber: customer[0].contactNumber,
-      customerId: req.body.customerId,
-      user: req.user.id,
-      total: req.body.total,
-      discount: req.body.discount,
-      advance: req.body.advance,
-      due: req.body.total - req.body.advance - req.body.discount,
-      orderDetailList: req.body.orderDetailList,
-    }).save();
-    res.status(200).json({ data : order });
-  }
+  const order = await new Order({
+    id: req.body.id,
+    customerId: req.body.customerId,
+    name: req.body.name,
+    age: req.body.age,
+    gender: req.body.gender,
+    contactNumber: req.body.contactNumber,
+    user: req.user.id,
+    total: req.body.total,
+    discount: req.body.discount,
+    paidAmount: req.body.paidAmount,
+    dueAmount: req.body.dueAmount,
+    itemList: req.body.itemList,
+  }).save();
+  res.status(200).json({ data: order });
 });
 app.delete("/api/orders/:id", requireLogin, async (req, res) => {
   const removedOrder = await Order.findOneAndRemove({
