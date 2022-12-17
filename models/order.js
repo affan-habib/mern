@@ -12,7 +12,7 @@ const orderSchema = mongoose.Schema(
       ref: "User",
     },
     customerId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Customer",
     },
     name: {
