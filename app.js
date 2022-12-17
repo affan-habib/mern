@@ -164,7 +164,7 @@ app.get("/api/orders", requireLogin, async (req, res) => {
 });
 app.post("/api/orders", requireLogin, async (req, res) => {
   const order = await new Order({
-    id: req.body.id,
+    invoiceId: req.body.invoiceId,
     customerId: req.body.customerId,
     name: req.body.name,
     contactNumber: req.body.contactNumber,

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema(
   {
-    id: {
+    invoiceId: {
       type: String,
       required: [true, "Please add a id value"],
     },
