@@ -163,20 +163,7 @@ app.get("/api/orders", requireLogin, async (req, res) => {
   res.status(200).json({ data: orders });
 });
 app.post("/api/orders", requireLogin, async (req, res) => {
-  const order = await new Order({
-    id: req.body.id,
-    customerId: req.body.customerId,
-    name: req.body.name,
-    contactNumber: req.body.contactNumber,
-    age: req.body.age,
-    gender: req.body.gender,
-    user: req.user.id,
-    itemTotal: req.body.itemTotal,
-    discountAmount: req.body.discountAmount,
-    paidAmount: req.body.paidAmount,
-    dueAmount: req.body.dueAmount,
-    itemList: req.body.itemList,
-  }).save();
+  const order = await new Order(req.body).save();
   res.status(200).json({ data: order });
 });
 app.delete("/api/orders/:id", requireLogin, async (req, res) => {
